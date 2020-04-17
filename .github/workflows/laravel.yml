@@ -1,0 +1,22 @@
+name: Laravel
+
+on: [push]
+
+jobs:
+  laravel:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install composer dependencies
+        run: composer install
+      - name: Install node dependencies
+        run: npm install
+      - name: Create .env file
+        run: cp .env.example .env
+      - name: Generate project key
+        run: php artisan generate:key
+      - name: Compile and mix assets
+        run: npm run dev
+      - name: Run tests
+        run: ./vendor/bin/phpunit
